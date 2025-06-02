@@ -1,0 +1,15 @@
+{
+  "name": "metro-problem-management",
+  "version": "1.0.0",
+  "description": "地铁机电设备调试系统问题管理",
+  "scripts": {
+    "start": "npm run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd server && npm start",
+    "client": "cd client && npm start",
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+} 
