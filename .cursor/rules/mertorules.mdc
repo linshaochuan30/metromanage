@@ -1,0 +1,80 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# 项目规则：默认适用于整个项目
+[[rules]]
+alwaysApply = true
+description = "通用项目结构和代码风格指南"
+content = """
+- 所有模块应使用 TypeScript 编写。
+- 使用 Deno 标准库和 Deno KV 作为数据库，不使用第三方 ORM。
+- 函数应具备明确输入输出类型，避免使用 `any`。
+- 所有 UI 元素应具备响应式设计，考虑仪表盘适配不同分辨率。
+"""
+
+# 仪表盘主页面规则
+[[rules]]
+globs = ["routes/dashboard.tsx", "components/Dashboard/**"]
+description = "仪表盘页面结构与布局规则"
+content = """
+- 主页面应包含统计概览卡片区块（如问题总数、未处理数量等）。
+- 页面右上角必须提供“问题库管理”导航按钮，建议使用图标 + 文本形式展示。
+- 仪表盘采用网格布局（Grid），确保卡片可扩展，支持 hover 提示。
+"""
+
+# 问题库管理模块规则
+[[rules]]
+globs = ["routes/issues/**", "components/Issue/**"]
+description = "问题库管理页面功能规则"
+content = """
+- 问题应支持增删改查操作。
+- 表单字段包括：序号、调试地点、专业、问题描述、二次回复、整改方案、发现时间、问题类别、问题分类、责任单位、整改期限、问题状态。
+- 表单应使用受控组件，支持录入后再次编辑。
+- 所有变更应通过 Deno KV 存储，键名应包含问题唯一 ID。
+- 删除前应二次确认；编辑应回填表单。
+"""
+
+# 数据访问规则（Deno KV）
+[[rules]]
+globs = ["lib/db.ts", "utils/kv.ts"]
+description = "Deno KV 数据访问封装"
+content = """
+- 所有 KV 操作应封装为模块化函数，如 `createIssue`, `getIssues`, `updateIssue`, `deleteIssue`。
+- 使用 `Deno.openKv()` 时应封装为单例，避免多次初始化。
+- 每个 KV 键应以 ["issue", id] 格式命名，便于命名空间划分。
+- 所有数据库操作应使用 `async/await`，并添加错误处理。
+"""
+
+# 开发阶段提示规则（手动触发）
+[[rules]]
+description = "调试与开发阶段 AI 指南"
+content = """
+- 优先使用原生 Deno 标准库。
+- 遇到 UI 组件风格问题，可建议使用 Tailwind CSS（如已引入）。
+- 遇到 KV 查询结构不清晰时，建议重新设计键名结构，保持语义一致性。
+"""
+# 🆕 数据同步规则：确保仪表盘与数据库实时一致
+[[rules]]
+globs = ["routes/dashboard.tsx", "components/Dashboard/**", "lib/db.ts", "utils/kv.ts"]
+description = "仪表盘与 Deno KV 数据库同步规则"
+content = """
+- 仪表盘中的统计数据（如问题总数、未处理数量）应实时从 Deno KV 中获取。
+- 在新增、删除、编辑问题后，应主动触发仪表盘数据的刷新逻辑，保持前后端一致性。
+- 可使用状态管理方案（如 React Context 或 signals）或页面级监听逻辑确保数据更新后 UI 同步。
+- 避免将仪表盘统计数据缓存为固定值，所有数据应基于最新 KV 查询结果动态计算。
+"""
+# 明确前端使用原生技术栈
+[[rules]]
+globs = ["public/**/*.html", "static/**/*.js", "scripts/**/*.js"]
+description = "前端页面开发技术栈与结构约定"
+content = """
+- 所有页面应使用原生 HTML + CSS + JavaScript 实现，不使用 React、Vue 等框架。
+- 页面结构应模块化，使用组件式 HTML 结构（如模板片段或自定义元素）组织内容。
+- 事件绑定使用 `addEventListener`，避免内联 JavaScript。
+- 样式应统一放置在 CSS 文件中，尽量避免使用内联样式。
+- 鼓励使用 `fetch` 与后端 API 或 KV 数据接口交互，数据变动后应手动触发 UI 刷新。
+"""
+
+

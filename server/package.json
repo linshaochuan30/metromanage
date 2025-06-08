@@ -1,0 +1,21 @@
+{
+  "name": "metro-problem-management-server",
+  "version": "1.0.0",
+  "description": "地铁机电设备调试系统问题管理后端服务",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "keywords": ["metro", "problem-management", "express"],
+  "author": "",
+  "license": "ISC"
+} 
